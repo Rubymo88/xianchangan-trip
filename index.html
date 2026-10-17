@@ -528,7 +528,22 @@ const store = {
   set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))
 };
 function navPoint(name){ window.open("https://maps.apple.com/?daddr="+encodeURIComponent("西安 "+name)+"&dirflg=d","_blank"); }
-function xhsPoint(name){ window.open("https://www.xiaohongshu.com/search_result?keyword="+encodeURIComponent("西安 "+name),"_blank"); }
+function xhsPoint(name){
+  var kw = encodeURIComponent("西安 "+name);
+  var webUrl = "https://www.xiaohongshu.com/search_result?keyword="+kw;
+  var ua = navigator.userAgent;
+  if(/android/i.test(ua)){
+    /* Android：Intent 优先唤起小红书APP（包名 com.xingin.xhs），失败自动回退网页 */
+    location.href = "intent://search/result?keyword="+kw+"#Intent;scheme=xhsdiscover;package=com.xingin.xhs;S.browser_fallback_url="+encodeURIComponent(webUrl)+";end";
+    return;
+  }
+  if(/iPhone|iPad|iPod/i.test(ua)){
+    /* iOS：xiaohongshu.com 已注册通用链接，装了App会自动跳APP，没装则留在网页 */
+    location.href = webUrl;
+    return;
+  }
+  window.open(webUrl,"_blank"); /* 电脑端 */
+}
 function evId(d,i){ return d+"_"+i; }
 function btnsHtml(e,id,name){
   let h = `<button class="mini-btn" onclick="navPoint('${name}')">🧭 导航</button>

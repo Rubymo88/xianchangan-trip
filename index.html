@@ -533,13 +533,17 @@ function xhsPoint(name){
   var webUrl = "https://www.xiaohongshu.com/search_result?keyword="+kw;
   var ua = navigator.userAgent;
   if(/android/i.test(ua)){
-    /* Android：Intent 优先唤起小红书APP（包名 com.xingin.xhs），失败自动回退网页 */
+    /* Android：Intent 优先唤起小红书APP搜索页（包名 com.xingin.xhs），失败自动回退网页 */
     location.href = "intent://search/result?keyword="+kw+"#Intent;scheme=xhsdiscover;package=com.xingin.xhs;S.browser_fallback_url="+encodeURIComponent(webUrl)+";end";
     return;
   }
   if(/iPhone|iPad|iPod/i.test(ua)){
-    /* iOS：xiaohongshu.com 已注册通用链接，装了App会自动跳APP，没装则留在网页 */
-    location.href = webUrl;
+    /* iOS：先试 URL Scheme 直接唤起APP搜索；未安装/唤起失败则1.8秒后回退网页 */
+    var t = Date.now();
+    var fb = setTimeout(function(){ if(Date.now()-t < 2200) location.href = webUrl; }, 1800);
+    document.addEventListener("visibilitychange", function(){ if(document.hidden) clearTimeout(fb); }, {once:true});
+    window.addEventListener("pagehide", function(){ clearTimeout(fb); }, {once:true});
+    location.href = "xhsdiscover://search/result?keyword="+kw;
     return;
   }
   window.open(webUrl,"_blank"); /* 电脑端 */

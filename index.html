@@ -135,19 +135,26 @@ html[data-theme="dark"] .day-card{background:linear-gradient(135deg,rgba(167,148
 
 /* ============ 日系绘本主题标题 ============ */
 .day-theme{display:flex;align-items:center;justify-content:center;gap:12px;margin:2px 0 4px}
-.dt-pill{display:inline-flex;align-items:center;padding:10px 22px;border-radius:999px;
+.dt-pill{display:inline-flex;align-items:center;padding:9px 15px;max-width:100%;border-radius:999px;
   background:rgba(255,255,255,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
   border:1.6px dashed rgba(240,128,128,.55);box-shadow:0 4px 16px rgba(240,128,128,.15);
   font-family:"Hiragino Maru Gothic ProN","Yuanti SC","Varela Round","Arial Rounded MT Bold","Microsoft YaHei",sans-serif;
-  font-weight:800;font-size:17px;color:#F08080;letter-spacing:1.5px}
+  font-weight:800;font-size:15px;color:#F08080;letter-spacing:1px;white-space:nowrap}
 html[data-theme="dark"] .dt-pill{background:rgba(255,255,255,.07);color:#FFA6A0;border-color:rgba(255,166,160,.45);box-shadow:0 4px 16px rgba(0,0,0,.3)}
-.dt-doodle svg{width:34px;height:34px;display:block}
+.dt-doodle svg{width:26px;height:26px;display:block;flex:0 0 auto}
 .dt-doodle path,.dt-doodle circle,.dt-doodle rect{stroke:#F08080;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
 html[data-theme="dark"] .dt-doodle path,html[data-theme="dark"] .dt-doodle circle,html[data-theme="dark"] .dt-doodle rect{stroke:#FFA6A0}
 .dt-doodle [fill]:not([fill="none"]){stroke:none}
 .day-sub{text-align:center;font-size:12px;color:var(--muted);margin:0 0 12px;font-family:var(--title-font)}
 /* ============ 时间轴时段图标 ============ */
 .pd-ic{width:15px;height:15px;display:block}
+
+/* ============ 记账 ============ */
+.exp-lbl{font-size:12px;color:var(--muted);font-family:var(--title-font);margin:10px 0 5px}
+.exp-chips{display:flex;gap:8px;flex-wrap:wrap}
+.exp-chip{padding:6px 13px;border-radius:12px;border:1.5px solid var(--line);background:var(--card-2);font-size:12px;font-family:var(--title-font);color:var(--muted);transition:all .15s;line-height:1.35}
+.exp-chip.on{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:#fff;border-color:transparent}
+.exp-day{font-size:13px;font-family:var(--title-font);font-weight:700;color:var(--primary-d);margin:10px 0 2px}
 /* ============ 打卡地 ============ */
 .spot .top{display:flex;gap:12px}
 .spot .thumb{flex:0 0 84px;height:84px;border-radius:12px;background:linear-gradient(140deg,var(--accent),var(--primary));display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;font-family:var(--title-font)}
@@ -300,6 +307,7 @@ html[data-theme="dark"] .dt-doodle path,html[data-theme="dark"] .dt-doodle circl
 <div class="page" id="page-schedule"><div class="wrap">
   <div class="sec-title" style="font-size:20px;margin-top:10px">日程</div>
   <div class="day-scroll" id="dayScroll"></div>
+  <div class="muted" style="text-align:center;margin:-4px 0 10px;font-size:11px">‹ 左右滑动日程卡片可切换日期 ›</div>
   <div id="dayDetail"></div>
 </div></div>
 
@@ -321,6 +329,33 @@ html[data-theme="dark"] .dt-doodle path,html[data-theme="dark"] .dt-doodle circl
   <div class="card"><div style="font-size:12px;color:var(--muted);margin-bottom:4px">按区域分类，勾选已买；每项可填写补充事项（价格/数量/送给谁），自动保存在本机。</div><div id="giftList"></div></div>
 </div></div>
 
+<!-- ================= 记账 ================= -->
+<div class="page" id="page-expense"><div class="wrap">
+  <div class="sec-title" style="font-size:20px;margin-top:10px">记账</div>
+  <div class="card">
+    <div class="sec-title" style="margin-top:0">记一笔</div>
+    <div class="exp-lbl">哪一天</div>
+    <div class="exp-chips" id="expDays"></div>
+    <div class="exp-lbl">类别</div>
+    <div class="exp-chips" id="expCats"></div>
+    <div class="exp-lbl">金额（元）</div>
+    <input class="note-input" type="number" inputmode="decimal" id="expAmt" placeholder="0.00">
+    <div class="exp-lbl">备注（费用明细）</div>
+    <input class="note-input" id="expNote" placeholder="如：老米家泡馍 + 贾三灌汤包">
+    <button class="mini-btn solid" style="margin-top:12px;width:100%;padding:9px;font-size:14px" onclick="addExpense()">＋ 记一笔</button>
+  </div>
+  <div class="card">
+    <div class="sec-title" style="margin-top:0">费用清单照片</div>
+    <div class="muted" style="margin-bottom:8px">把纸质账单 / 小票汇总拍照上传，仅保存在本机，随时可查。</div>
+    <label class="up-btn">上传费用清单<input type="file" accept="image/*" hidden onchange="saveExpImg(this)"></label>
+    <div id="expImgBox" style="margin-top:10px"></div>
+  </div>
+  <div class="card">
+    <div class="sec-title" style="margin-top:0">明细</div>
+    <div id="expList"></div>
+  </div>
+</div></div>
+
 <!-- ================= 底部Tab ================= -->
 <nav class="tabbar">
   <button class="tab on" data-page="page-home" onclick="goPage(this)"><span class="ic">⌂</span>首页</button>
@@ -328,6 +363,7 @@ html[data-theme="dark"] .dt-doodle path,html[data-theme="dark"] .dt-doodle circl
   <button class="tab" data-page="page-spots" onclick="goPage(this)"><span class="ic">◉</span>打卡地</button>
   <button class="tab" data-page="page-todos" onclick="goPage(this)"><span class="ic">✓</span>待办</button>
   <button class="tab" data-page="page-gifts" onclick="goPage(this)"><span class="ic">❖</span>手信</button>
+  <button class="tab" data-page="page-expense" onclick="goPage(this)"><span class="ic">￥</span>记账</button>
 </nav>
 
 <!-- ================= 进场码弹窗 ================= -->
@@ -704,6 +740,14 @@ function renderDays(){
   }).join("");
 }
 function toggleDay(id){ openDay = openDay===id ? null : id; renderDays(); renderDayDetail(); }
+/* 左右滑动切换日期 */
+let touchX = null;
+function swipeDay(dir){
+  const idx = TRIP.days.findIndex(d=>d.id===openDay);
+  if(idx<0) return;
+  openDay = TRIP.days[(idx+dir+TRIP.days.length)%TRIP.days.length].id;
+  renderDays(); renderDayDetail();
+}
 function moveIcon(next){
   const t = next.traff || "";
   if(/高铁/.test(t)) return `<div class="tl-move">🚄</div>`;
@@ -753,6 +797,13 @@ function renderDayDetail(){
           <div class="tl-btns">${btnsHtml(e,id,e.name)}</div>
         </div>${i<day.events.length-1?moveIcon(day.events[i+1]):""}</div>`;
     }).join("")}</div></div>`;
+  const cardEl = box.querySelector(".card");
+  cardEl.addEventListener("touchstart",e=>{touchX=e.touches[0].clientX;},{passive:true});
+  cardEl.addEventListener("touchend",e=>{
+    if(touchX===null) return;
+    const dx=e.changedTouches[0].clientX-touchX; touchX=null;
+    if(Math.abs(dx)>60) swipeDay(dx<0?1:-1);
+  },{passive:true});
 }
 function toggleBooked(id){ store.set("booked_"+id, !store.get("booked_"+id,false)); renderDayDetail(); renderNext(); }
 
@@ -854,8 +905,77 @@ $("#pts").innerHTML = TRIP.mapPts.map(p=>
   `<circle cx="${p.x}" cy="${p.y}" r="4.2" fill="var(--primary)" stroke="var(--card)" stroke-width="1.4"/>
    <text x="${p.x+p.dx}" y="${p.y+p.dy}" text-anchor="${p.a}">${p.n}</text>`).join("");
 
+/* ==================== 记账 ==================== */
+const EXP_CATS = [["餐饮","🍜"],["交通","🚇"],["生活用品","🧻"],["手信","🎁"]];
+let expDay = null, expCat = "餐饮";
+function defaultExpDay(){
+  const n = new Date();
+  const t = TRIP.days.find(x=>{const d=parseInt(x.date.split(".")[1]);return d===n.getDate()&&n.getMonth()===9&&n.getFullYear()===2026;});
+  return t ? t.date : "10.24";
+}
+function getExp(){ return store.get("expenses",[]); }
+function renderExpense(){
+  expDay = expDay || defaultExpDay();
+  $("#expDays").innerHTML = TRIP.days.map((d,i)=>`<button class="exp-chip ${expDay===d.date?"on":""}" onclick="expDay='${d.date}';renderExpense()">Day ${i+1} · ${d.date}</button>`).join("");
+  $("#expCats").innerHTML = EXP_CATS.map(c=>`<button class="exp-chip ${expCat===c[0]?"on":""}" onclick="expCat='${c[0]}';renderExpense()">${c[1]} ${c[0]}</button>`).join("");
+  const list = getExp();
+  const byDay = {};
+  list.forEach((e,i)=>{ (byDay[e.d]=byDay[e.d]||[]).push([e,i]); });
+  let h = list.length ? "" : '<div class="muted">还没有记录，先记一笔吧。</div>';
+  let total = 0;
+  TRIP.days.forEach(d=>{
+    const items = byDay[d.date];
+    if(!items) return;
+    const sub = items.reduce((s,x)=>s+x[0].amt,0);
+    total += sub;
+    h += `<div class="exp-day">Day ${TRIP.days.indexOf(d)+1} · ${d.date}　<span class="price">¥ ${sub.toFixed(2)}</span></div>`;
+    items.forEach(([e])=>{
+      h += `<div class="todo-item"><div style="flex:1">
+        <div class="tt">${EXP_CATS.find(c=>c[0]===e.cat)?.[1]||""} ${e.cat} <span class="price">¥ ${e.amt.toFixed(2)}</span></div>
+        <div class="meta">${e.note||"无备注"} · ${e.time}</div></div>
+        <button class="mini-btn" onclick="delExpense(${list.indexOf(e)})">✕</button></div>`;
+    });
+  });
+  if(list.length) h += `<div class="exp-day" style="border-top:1.5px dashed var(--line);padding-top:10px;margin-top:8px">全程总计　<span class="price">¥ ${total.toFixed(2)}</span></div>`;
+  $("#expList").innerHTML = h;
+  const img = store.get("expimg",null);
+  $("#expImgBox").innerHTML = img
+    ? `<img src="${img}" style="max-width:240px;border-radius:10px;border:1px solid var(--line)"><br><button class="del-btn" onclick="delExpImg()">删除照片</button>`
+    : '<div class="muted">尚未上传</div>';
+}
+function addExpense(){
+  const amt = parseFloat($("#expAmt").value);
+  if(!amt || amt<=0){ alert("请输入正确的金额"); return; }
+  const now = new Date();
+  const list = getExp();
+  list.push({d:expDay, cat:expCat, amt:Math.round(amt*100)/100, note:$("#expNote").value.trim(),
+             time:String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0")});
+  store.set("expenses",list);
+  $("#expAmt").value=""; $("#expNote").value="";
+  renderExpense();
+}
+function delExpense(i){ const l=getExp(); l.splice(i,1); store.set("expenses",l); renderExpense(); }
+function saveExpImg(input){
+  const f = input.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = e=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const c = document.createElement("canvas");
+      const scale = Math.min(1, 900/img.width);
+      c.width = img.width*scale; c.height = img.height*scale;
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      store.set("expimg", c.toDataURL("image/jpeg",0.85));
+      renderExpense();
+    };
+    img.src = e.target.result;
+  };
+  r.readAsDataURL(f);
+}
+function delExpImg(){ localStorage.removeItem("expimg"); renderExpense(); }
+
 /* ==================== 初始化 ==================== */
-renderDays(); renderDayDetail(); renderNext(); renderSpots(); renderTodos(); renderGifts();
+renderDays(); renderDayDetail(); renderNext(); renderSpots(); renderTodos(); renderGifts(); renderExpense();
 setInterval(renderNext, 60000);
 </script>
 </body>

@@ -381,8 +381,7 @@ html[data-theme="dark"] .dt-doodle path,html[data-theme="dark"] .dt-doodle circl
     <h3 id="expModalTitle">费用清单</h3>
     <div class="muted">上传这笔费用的小票 / 账单照片，仅保存在本机浏览器。</div>
     <div class="qr-box" id="expModalBox"></div>
-    <label class="up-btn">上传 / 更换照片<input type="file" accept="image/*" hidden id="expImgInput" onchange="saveExpItemImg(this)"></label>
-    <button class="del-btn" id="expModalDel" style="display:none" onclick="delExpItemImg()">删除照片</button>
+    <label class="up-btn">＋ 添加清单照片（可多张）<input type="file" accept="image/*" hidden id="expImgInput" onchange="saveExpItemImg(this)"></label>
     <button class="mini-btn" style="display:block;margin:14px auto 0" onclick="closeExpImg()">关闭</button>
   </div>
 </div>
@@ -427,7 +426,7 @@ const TRIP = {
          traff:"<b>地铁：</b>14号线机场西站（T1/T2/T3）→西安北站，换2号线→钟楼站，再换6号线1站→桥梓口站，出站步行即达酒店，全程约1小时10分，票价约10元。<b>打车：</b>直达酒店约50–60分钟、120–160元。",
          book:0, qr:0},
         {t:"16:30", name:"入住汉庭酒店（桥梓口）", addr:"汉庭西安钟楼桥梓口地铁站店（详细地址待补充）",
-         desc:"紧邻地铁6号线桥梓口站，出行极方便：6号线1站到钟楼换2号线（小寨/永宁门/西安北站），6号线也直达纺织城换9号线去兵马俑。安顿好行李再出发。",
+         desc:"紧邻地铁6号线桥梓口站。",
          traff:"机场至酒店交通见上一站。",
          book:0, qr:0},
         {t:"17:30", name:"西安城墙 · 永宁门", nodesc:1, key:1, addr:"永宁门（南门）",
@@ -470,7 +469,7 @@ const TRIP = {
          traff:"<b>地铁：</b>小寨站乘3号线至大雁塔站仅1站；或打车约10分钟。",
          book:1, qr:1},
         {t:"16:00", name:"大雁塔北广场 · 音乐喷泉", addr:"大雁塔北广场",
-         desc:"从大慈恩寺出来即北广场，可顺便看16:00音乐喷泉场次；之后在南广场玄奘雕像附近散步，或找咖啡店坐下休息，为晚宴和夜游留出体力窗口。",
+         nodesc:1,
          traff:"<b>步行：</b>大慈恩寺出门即达。",
          book:0, qr:0},
         {t:"18:30", name:"武皇盛宴（晚宴场19:00–20:30）", nodesc:1, key:1, addr:"雁塔区雁南一路659号锦安坊7号楼（大唐不夜城西侧）",
@@ -478,14 +477,14 @@ const TRIP = {
          traff:"<b>步行：</b>从大慈恩寺或大雁塔北广场步行约5–10分钟；地铁3/4号线大雁塔站B口或C口出，步行约5分钟。",
          book:1, qr:1},
         {t:"20:30", name:"大唐不夜城夜游", addr:"雁塔区慈恩路步行街",
-         desc:"街区全天免费、无需预约，18:30亮灯。晚宴后正好赶上21:00大雁塔北广场音乐喷泉；沿主街由北向南走一遍看灯光氛围即可，顺路买唐风文创、书签、冰箱贴，为28日减轻购物压力。约1小时后返回酒店。",
+         desc:"18:30亮灯，21:00大雁塔北广场音乐喷泉，沿主街由北向南走一遍看灯光氛围即可，顺路买唐风文创、书签、冰箱贴。",
          traff:"<b>地铁回程：</b>大雁塔站乘3号线→小寨换2号线→钟楼换6号线1站→桥梓口，约40–50分钟。",
          book:0, qr:0}
       ]},
     { id:"d3", date:"10.26", week:"周一", theme:"兵马俑 · 西安后海",
       events:[
         {t:"07:00", name:"出发前往兵马俑", addr:"地铁6号线→9号线→华清池站",
-         desc:"早起避开旅行团，目标8:30开园即入。警惕路边拉客的「黑大巴」，务必乘正规公交或官方直通车。",
+         desc:"早起避开旅行团，目标8:30开园即入。",
          traff:"<b>地铁+公交：</b>酒店旁桥梓口站乘6号线（纺织城方向）直达纺织城站，站内换9号线（秦汉大道方向）→华清池站C口出，换游613路或602路公交约20分钟直达兵马俑景区大门。全程约1小时30分，地铁约8元+公交5元=13元/人。",
          book:0, qr:0},
         {t:"08:30", name:"秦始皇陵兵马俑博物馆", nodesc:1, key:1, addr:"临潼区秦陵北路",
@@ -512,27 +511,27 @@ const TRIP = {
     { id:"d4", date:"10.27", week:"周二", theme:"华山一日游（西上北下）",
       events:[
         {t:"06:50", name:"西安北站乘高铁 → 华山北", addr:"西安北站",
-         desc:"西安北站乘高铁前往华山北站，车程30–40分钟，每天班次非常多（早6点多到晚7点多）。计划班次：7:52发车，8:20到达华山北站（¥54.5/人）。",
+         desc:"西安北站乘高铁前往华山北站，车程30–40分钟，计划班次：7:52发车，8:20到达华山北。",
          traff:"<b>地铁：</b>酒店桥梓口站乘6号线（1站）→钟楼站，换2号线直达西安北站，约30分钟。",
          book:1, qr:0},
         {t:"08:20", name:"华山北站 → 华山游客中心", addr:"华山北站 / 华阴市游客中心",
-         desc:"出站右转有免费景区接驳车（凭购票码乘坐，08:00–18:00免费），或打车约10–15分钟到华山游客中心。",
+         nodesc:1,
          traff:"<b>接驳车：</b>凭华山门票在8:00–18:00免费乘坐华山北站→游客中心官方接驳车。",
          book:0, qr:0},
         {t:"08:30", name:"华山游客中心 · 购票进山", addr:"华阴市华山游客中心",
-         desc:"微信「华山旅游服务平台」小程序购「西上北下」套票（门票+往返索道+往返车票）约360元。旺季和节假日务必提前1–10天实名预约，旺季（3–11月）建议提前3天抢票，约7:00–9:00早场；索道入园检票时间通常7:00–16:00。",
+         desc:"微信「华山旅游服务平台」小程序购「西上北下」套票（门票+往返索道+往返车票）约360元。",
          traff:"交通见上一站；检票后乘景区大巴前往西峰索道。",
          book:1, qr:1},
         {t:"09:00", name:"华山全景：西峰→南峰→东峰→中峰→北峰", key:1, addr:"华山景区",
-         desc:"西上北下全程约5.5–7小时。时间轴：09:00–10:00 游客中心→西峰索道（景区大巴约40–50分钟，盘山路易晕车提前吃药）；10:00–10:30 西峰索道上山（约20–25分钟）；10:30–13:30 西峰（沉香劈山救母石，约40分钟）→南峰（海拔2154.9米，约40分钟）→东峰（朝阳观景台）；13:30–15:00 中峰→北峰（下坡和台阶为主约1.5小时，经苍龙岭）；15:00–15:30 北峰索道下山（约8分钟），再坐景区大巴返回游客中心。注意：北峰索道一般19:00左右停运，旺季或节假日可能提前，14:30–15:00就必须开始往北峰索道走，千万别卡点。",
+         desc:"西上北下全程约5.5–7小时。景区大巴40–50分钟→西峰索道20–25分钟→西峰（沉香劈山救母石）→南峰（2154.9米）→东峰（朝阳观景台）→中峰→北峰（经苍龙岭）→北峰索道8分钟下山→景区大巴返游客中心。",
          traff:"景区大巴+索道，详见时间轴。",
          book:0, qr:1},
-        {t:"16:30", name:"华山北 → 西安北高铁", addr:"华山北站",
-         desc:"计划班次：16:30发车，17:03到达西安北（¥54.5/人）。",
+        {t:"17:30", name:"华山北 → 西安北高铁", addr:"华山北站",
+         desc:"计划班次：17:23发车，17:56到达西安北。",
          traff:"<b>打车：</b>游客中心打车约15–20分钟（15–20元）到华山北站；或乘1路/2路公交。",
          book:1, qr:0},
-        {t:"17:30", name:"返回酒店", addr:"桥梓口汉庭",
-         desc:"回酒店休整，华山一日体力消耗大，晚上可就近简单用餐。",
+        {t:"18:30", name:"返回酒店", addr:"桥梓口汉庭",
+         nodesc:1,
          traff:"<b>地铁：</b>西安北站乘2号线→钟楼站换6号线1站→桥梓口站；总耗时约1.5–1.7小时。",
          book:0, qr:0}
       ]},
@@ -571,12 +570,12 @@ const TRIP = {
      notice:"现场不设售票窗口，必须提前在官方小程序「西安城墙景区」实名预约购票（建议提前1–2天抢票），入园刷身份证原件。只有永宁门（南门）和建国门营业到22:00，其他城门一般20:00停止入园。成人票54元。"},
     {icon:"钟", name:"钟楼 · 鼓楼", desc:"「西安相框+钟楼+鼓楼」同框机位，亮灯后最佳", src:"行程手册（机位攻略）",
      addr:"钟楼（开元商城，北大街/东大街口）", route:"钟楼站地下通道5/8号口 → 开元商城各机位", best:"19:00 亮灯后夜景", need:"不登塔 · 免费", plan:"已排入 10/24",
-     routeDetail:"不登塔，地面打卡。推荐机位：① 霸王茶姬（超旗舰店）2F–3F，地下通道8出口，北大街西口；② 开元商城门口广场，地下通道5出口，东大街南口；③ 开元商城1F；④ 开元商城钟楼店5F–8F层（西安相框+钟楼+鼓楼同框）。从永宁门沿南大街向北步行10–15分钟即达。",
+     routeDetail:"推荐机位：① 霸王茶姬（超旗舰店）2F–3F，地下通道8出口，北大街西口；② 开元商城门口广场，地下通道5出口，东大街南口；③ 开元商城1F；④ 开元商城钟楼店5F–8F层（西安相框+钟楼+鼓楼同框）。从永宁门沿南大街向北步行10–15分钟即达。",
      notice:"不逛里面、不登塔，无需门票和预约。拍完可步行约15分钟回桥梓口酒店，或钟楼站乘6号线1站即达。"},
     {icon:"博", name:"陕西历史博物馆", desc:"大唐遗宝何家村窖藏，国宝密度全国前列", src:"行程手册",
      addr:"雁塔区小寨东路91号", route:"4展厅→3展厅→2展厅→1展厅（倒序避人流）", best:"08:30 开馆即入", need:"免费 · 需预约", plan:"已排入 10/25",
      routeDetail:"第一站1楼第四展厅（大唐遗宝·何家村窖藏）→ 第二站2楼第三展厅（盛唐气象与宋元明清）→ 第三站2楼第二展厅（汉魏南北朝）→ 第四站1楼第一展厅（史前·周·秦）。全程约3小时。",
-     notice:"免费，放票提前5天、每日17:00，微信公众号「陕西历史博物馆」本馆→参观预约。预约时段08:30–11:00，必须在预约时段内刷身份证入馆。重点：10月20日17:00准时抢。交通：2号线小寨站E口沿小寨东路步行约800米。"},
+     notice:"免费，放票提前5天、每日17:00，微信公众号「陕西历史博物馆」本馆→参观预约。预约时段08:30–11:00，必须在预约时段内刷身份证入馆。"},
     {icon:"寺", name:"大兴善寺", desc:"唐密祖庭，塔下白鸽、后院竹林古紫藤", src:"行程手册",
      addr:"雁塔区兴善寺西街", route:"山门→天王殿→大雄宝殿→和平吉祥塔→后院", best:"上午 11:00 前", need:"免费 · 无需预约", plan:"已排入 10/25",
      routeDetail:"山门 → 天王殿（猫咪聚集地）→ 大雄宝殿（密宗主殿）→ 观音殿 → 文殊殿 → 和平吉祥塔（喂白鸽）→ 后院竹林与古紫藤 → 法物流通处。建议游玩1–1.5小时。",
@@ -599,7 +598,7 @@ const TRIP = {
      notice:"全天免费、无需预约。地铁3号线浐灞中心站A口步行约15分钟。傍晚水面被染成蜜橘色、粉紫色，出片率极高。从兵马俑方向过去约1小时40分钟（9号线→1号线→3号线）。"},
     {icon:"山", name:"华山", desc:"西上北下全景，南峰海拔2154.9米", src:"行程手册",
      addr:"华阴市华山景区", route:"西峰索道→西峰→南峰→东峰→中峰→北峰索道下", best:"上午 11:00 前登顶南峰", need:"套票约 ¥360 · 需预约", plan:"已排入 10/27",
-     routeDetail:"西上北下约5.5–7小时：景区大巴40–50分钟→西峰索道20–25分钟→西峰（沉香劈山救母石）→南峰（2154.9米）→东峰（朝阳观景台）→中峰→北峰（经苍龙岭）→北峰索道8分钟下山→景区大巴返游客中心。高铁往返：西安北7:52发/华山北16:30回。",
+     routeDetail:"西上北下约5.5–7小时。时间轴：09:00–10:00 游客中心→西峰索道（景区大巴约40–50分钟，盘山路易晕车提前吃药）；10:00–10:30 西峰索道上山（约20–25分钟）；10:30–13:30 西峰（沉香劈山救母石，约40分钟）→南峰（海拔2154.9米，约40分钟）→东峰（朝阳观景台）；13:30–15:00 中峰→北峰（下坡和台阶为主约1.5小时，经苍龙岭）；15:00–15:30 北峰索道下山（约8分钟），再坐景区大巴返回游客中心。注意：北峰索道一般19:00左右停运，旺季或节假日可能提前，14:30–15:00就必须开始往北峰索道走，千万别卡点。",
      notice:"套票约360元（门票+往返索道+往返车票），「华山旅游服务平台」小程序实名预约，旺季提前3天约7:00–9:00早场（10.24抢）；索道检票7:00–16:00。北峰索道一般19:00左右停运，旺季可能提前，14:30–15:00必须开始往北峰索道走。西线景区大巴为盘山路，易晕车提前吃药。华山北站→游客中心8:00–18:00免费接驳（凭门票）。"}
   ],
   todos: [
@@ -609,7 +608,7 @@ const TRIP = {
     {t:"10.22–23 购大慈恩寺门票", fee:"¥10/人", way:"小程序「西安市大慈恩寺」实名预约", cycle:"提前1–3天 · 不登塔", done:0},
     {t:"10.23（周五）前 购西安城墙门票", fee:"¥54/人", way:"官方小程序「西安城墙景区」", cycle:"提前1–2天 · 现场无售票窗口，刷身份证入园", done:0},
     {t:"10.24（周六）前 抢华山套票", fee:"约¥360/人", way:"小程序「华山旅游服务平台」", cycle:"旺季提前3天 · 约7:00–9:00早场", done:0},
-    {t:"12306 购西安北⇄华山北高铁票", fee:"¥54.5/人/程", way:"12306 APP", cycle:"去程7:52 / 回程16:30（班次待补充是否已购）", done:0}
+    {t:"12306 购西安北⇄华山北高铁票", fee:"¥54.5/人/程", way:"12306 APP", cycle:"去程7:52 / 回程17:23（班次待补充是否已购）", done:0}
   ],
   gifts: [
     {n:"腊牛肉（贾永信 / 刘纪孝）", area:"回民街 / 北院门", price:"", note:"10/27晚或10/28早购买，真空包装"},
@@ -925,6 +924,9 @@ function defaultExpDay(){
 function getExp(){ return store.get("expenses",[]); }
 function renderExpense(){
   expDay = expDay || defaultExpDay();
+  const _l0 = getExp(); let _mig = false;
+  _l0.forEach(e=>{ if(e.img && !e.imgs){ e.imgs=[e.img]; delete e.img; _mig=true; } });
+  if(_mig) store.set("expenses",_l0);
   $("#expDays").innerHTML = TRIP.days.map((d,i)=>`<button class="exp-chip ${expDay===d.date?"on":""}" onclick="expDay='${d.date}';renderExpense()">Day ${i+1} · ${d.date}</button>`).join("");
   $("#expCats").innerHTML = EXP_CATS.map(c=>`<button class="exp-chip ${expCat===c[0]?"on":""}" onclick="expCat='${c[0]}';renderExpense()">${c[1]} ${c[0]}</button>`).join("");
   const list = getExp();
@@ -940,9 +942,9 @@ function renderExpense(){
     h += `<div class="exp-day">Day ${TRIP.days.indexOf(d)+1} · ${d.date}　<span class="price">¥ ${sub.toFixed(2)}</span></div>`;
     items.forEach(([e])=>{
       h += `<div class="todo-item"><div style="flex:1">
-        <div class="tt">${EXP_CATS.find(c=>c[0]===e.cat)?.[1]||""} ${e.cat} <span class="price">¥ ${e.amt.toFixed(2)}</span>${e.img?' <span class="tag tag-ok">📷 有清单</span>':""}</div>
+        <div class="tt">${EXP_CATS.find(c=>c[0]===e.cat)?.[1]||""} ${e.cat} <span class="price">¥ ${e.amt.toFixed(2)}</span>${e.imgs&&e.imgs.length?` <span class="tag tag-ok">📷 ${e.imgs.length}张清单</span>`:""}</div>
         <div class="meta">${e.note||"无备注"} · ${e.time}</div></div>
-        <button class="mini-btn" onclick="openExpImg(${list.indexOf(e)})">${e.img?"📷":"▦"} 清单</button>
+        <button class="mini-btn" onclick="openExpImg(${list.indexOf(e)})">${e.imgs&&e.imgs.length?"📷 "+e.imgs.length:"▦"} 清单</button>
         <button class="mini-btn" onclick="delExpense(${list.indexOf(e)})">✕</button></div>`;
     });
   });
@@ -961,16 +963,23 @@ function addExpense(){
   renderExpense();
 }
 function delExpense(i){ const l=getExp(); l.splice(i,1); store.set("expenses",l); renderExpense(); }
-/* 每一笔费用的清单照片 */
+/* 每一笔费用的清单照片（支持多张） */
 let expImgIdx = null;
 function openExpImg(i){
   expImgIdx = i;
   const e = getExp()[i]; if(!e) return;
   $("#expModalTitle").textContent = "费用清单 · " + e.cat + " ¥" + e.amt.toFixed(2);
-  const img = e.img || null;
-  $("#expModalBox").innerHTML = img ? `<img src="${img}" alt="费用清单">` : `<div class="muted" style="padding:16px 0">这笔费用还没有清单照片<br>上传后自动保存在本机</div>`;
-  $("#expModalDel").style.display = img ? "block" : "none";
+  renderExpImgs();
   $("#expModal").classList.add("show");
+}
+function renderExpImgs(){
+  const e = getExp()[expImgIdx]; if(!e) return;
+  const imgs = e.imgs || [];
+  $("#expModalBox").innerHTML = imgs.length
+    ? `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">` + imgs.map((src,k)=>
+        `<div style="position:relative"><img src="${src}" style="width:100%;border-radius:8px;border:1px solid var(--line)"><button onclick="delExpItemImg(${k})" style="position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(20,16,30,.6);color:#fff;font-size:11px;line-height:1;padding:0">✕</button></div>`
+      ).join("") + `</div>`
+    : `<div class="muted" style="padding:16px 0">这笔费用还没有清单照片<br>可上传多张，仅保存在本机</div>`;
 }
 function closeExpImg(){ $("#expModal").classList.remove("show"); }
 function saveExpItemImg(input){
@@ -984,17 +993,21 @@ function saveExpItemImg(input){
       c.width = img.width*scale; c.height = img.height*scale;
       c.getContext("2d").drawImage(img,0,0,c.width,c.height);
       const l = getExp();
-      if(l[expImgIdx]){ l[expImgIdx].img = c.toDataURL("image/jpeg",0.82); store.set("expenses",l); }
-      renderExpense(); openExpImg(expImgIdx);
+      if(l[expImgIdx]){
+        l[expImgIdx].imgs = l[expImgIdx].imgs || [];
+        l[expImgIdx].imgs.push(c.toDataURL("image/jpeg",0.82));
+        store.set("expenses",l);
+      }
+      renderExpense(); renderExpImgs();
     };
     img.src = ev.target.result;
   };
   r.readAsDataURL(f);
 }
-function delExpItemImg(){
+function delExpItemImg(k){
   const l = getExp();
-  if(l[expImgIdx]){ delete l[expImgIdx].img; store.set("expenses",l); }
-  renderExpense(); openExpImg(expImgIdx);
+  if(l[expImgIdx] && l[expImgIdx].imgs){ l[expImgIdx].imgs.splice(k,1); store.set("expenses",l); }
+  renderExpense(); renderExpImgs();
 }
 
 /* ==================== 初始化 ==================== */
